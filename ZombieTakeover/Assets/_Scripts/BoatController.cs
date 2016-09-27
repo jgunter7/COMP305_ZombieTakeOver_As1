@@ -31,7 +31,7 @@ public class BoatController : MonoBehaviour {
     }
     private void _reset() {
         if (this.offset) {
-            this._transform.position = new Vector2(Random.Range(-288f, 288f), 475f);
+            this._transform.position = new Vector2(Random.Range(-288f, 288f), 500f);
             this.offset = false; //only runs this a max of 1 time.
         } else {
             this._transform.position = new Vector2(Random.Range(-288f, 288f), 275f);
