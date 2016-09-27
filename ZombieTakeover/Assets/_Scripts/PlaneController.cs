@@ -2,26 +2,33 @@
 using System.Collections;
 
 public class PlaneController : MonoBehaviour {
-
+    // PRIVATE PROPERTY
+    private int _speed;
     private Transform _transform;
 
-	void Start () {
+    void Start() {
         this._transform = this.GetComponent<Transform>();
-	}
-
-	void Update () {
-        this._move();     
-	}
-
-    private void _move() {
-        this._transform.position = new Vector2(Mathf.Clamp(Input.mousePosition.x - 320f, -290, 290), -200f);
+        this._reset();
     }
 
-    private void OnTriggerEnter2D(Collider2D theCol) {
-        if (theCol.gameObject.CompareTag("Island")) {
-            Debug.Log("Hit Island!");
-        } else if (theCol.gameObject.CompareTag("Enemy")) {
-            Debug.Log("Hit Cloud!");
-        }        
+    void Update() {
+        this._move();
+        this._checkBounds();
+    }
+
+    private void _move() {
+        Vector2 newPosition = this._transform.position;
+        newPosition.x -= this._speed;
+        this._transform.position = newPosition;
+    }
+
+    private void _checkBounds() {
+        if (this._transform.position.x <= -375f) {
+            this._reset();
+        }
+    }
+    private void _reset() {
+        this._transform.position = new Vector2(Random.Range(375f, 450f), 200f);
+        this._speed = 5;
     }
 }
