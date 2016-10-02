@@ -7,6 +7,7 @@ public class PlaneController : MonoBehaviour {
     private Transform _transform;
     public Transform enemy;
     public Transform supply;
+    
 
     void Start() {
         this._transform = this.GetComponent<Transform>();

@@ -5,6 +5,10 @@ public class ShipController : MonoBehaviour {
 
     private Transform _transform;
     public Transform explosion;
+    public GameController gameController;
+    public AudioSource evilLaughSound;
+    public AudioSource collectSound;
+    public AudioSource explosionSound;
 
 	void Start () {
         this._transform = this.GetComponent<Transform>();
@@ -21,22 +25,19 @@ public class ShipController : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D theCol) {
         Debug.Log("Collision with: " + theCol.gameObject.tag);
         if (theCol.gameObject.CompareTag("Gas")) {
-            Debug.Log("Add Gas!");
-            // good sound
-            // add some gas to gas Bar
+            this.gameController.ScoreValue += 50;
+            this.collectSound.Play();
         } else if (theCol.gameObject.CompareTag("Enemy")) {
-            Debug.Log("Hit Bomb!");
-            // explosion sound
+            this.gameController.LivesValue -= 1;
+            this.explosionSound.Play();
             GameObject exploder = ((Transform)Instantiate(explosion, theCol.gameObject.transform.position, Quaternion.identity)).gameObject;
-            Destroy(exploder, 2.0f);
-            //large health hit          
+            Destroy(exploder, 2.0f);        
         } else if (theCol.gameObject.CompareTag("Boat")) {
-            Debug.Log("Hit Boat!");
-            // explosion sound
-            // big score bonus
+            this.gameController.ScoreValue += 50;
+            this.explosionSound.Play();
+            this.evilLaughSound.Play();
             GameObject exploder = ((Transform)Instantiate(explosion, theCol.gameObject.transform.position, Quaternion.identity)).gameObject;
-            Destroy(exploder, 2.0f);
-            //small health hit
+            Destroy(exploder, 1.5f);
         }
         //regardless, the colliding object needs to be removed from the scene
         Destroy(theCol.gameObject);
